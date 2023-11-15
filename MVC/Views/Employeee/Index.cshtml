@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MVC.Models.MVCEmployeeModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List</h2>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+    <a href="@Url.Action("AddOrEditUser","Employeee")" class="btn btn-default"><i class="fa-sharp fa-solid fa-user-plus"></i>Create New</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserMobNo)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserMobNo)
+        </td>
+        <td>
+            <a href="@Url.Action("AddOrEditUser","Employeee", new { id = item.UserId })" class="btn btn-default"><i class="fa-sharp fa-solid fa-user-pen"></i>Edit</a>
+            <a onclick="Delete(@item.UserId)" class="btn btn-default"><i class="fa-sharp fa-solid fa-trash"></i>Delete</a>
+
+           
+        </td>
+    </tr>
+}
+
+</table>
+
+@section scripts{
+    <script>
+        $(function () {
+            var successmessage = '@TempData["Success"]';
+            if (successmessage != '')
+             alertify.success(successmessage);
+        });
+
+        function Delete(id) {
+            alertify.confirm('Web API Crud', 'Are you sure you want to delete this record ?', function () {
+                window.location.href = '@Url.Action("DeleteUser","Employeee")/' + id;
+            }, null);
+        }
+    </script>
+    
+    }
